@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  
+  frontend:
+    depends_on:
+      - redis
+    hostname: frontend
+    image: stacki/frontend-centos:05.02.04.00
+    privileged: true
+    ports:
+      - "2200:22"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis}
+    networks:
+      - local
+    volumes:
+      - develop:/root
+
+  redis:
+    build:
+      context: redis
+    image: stacki/redis
+    hostname: redis
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis}
+    networks:
+      - local
+
+networks:
+  local:
+    driver: bridge
+    
+volumes:
+  develop:
+    external: true
+
