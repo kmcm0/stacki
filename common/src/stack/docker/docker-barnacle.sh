@@ -14,9 +14,6 @@ set -x
 
 cd /tmp
 
-# add EPEL for random stuff the user/dev might want
-yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
 $STACK report siteattr > site.attrs
 echo platform:docker  >> site.attrs
 
@@ -26,8 +23,16 @@ cat profile.xml | $STACK list host profile chapter=main profile=bash > profile.s
 bash profile.sh | tee barnacle.log
 
 $STACK add    pallet /export/stack/pallets/stacki
-$STACK enable pallet stacki
-$STACK enable pallet stacki box=frontend
+$STACK enable pallet %
+$STACK enable pallet % box=frontend
+
+
+# Move CentOS repos and add EPEL (gitflow)
+
+cd /etc/yum.repos.d
+mv save/CentOS-*.repo .
+yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
 
 touch $LOCK
 
