@@ -10,7 +10,8 @@ import os
 import json
 from jsoncomment import JsonComment
 
-def _load_topology()
+
+def _load_topology():
 	topo = { 'redis':    'redis',
 		 'database': 'localhost' }
 
@@ -25,11 +26,13 @@ def _load_topology()
 
 	return topo
 
+
 _topo = _load_topology()
 
 
 class Redis:
 	server = _topo['redis']
+
 
 class Database:
 	server = _topo['database']
